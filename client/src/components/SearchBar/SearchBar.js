@@ -7,7 +7,7 @@ const SearchBar = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSearchState(document.querySelector("#search-input").value);
-    // console.log(searchState);
+    console.log(searchState);
   };
 
 
