@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS ncro_db;
+
+CREATE DATABASE ncro_db;
