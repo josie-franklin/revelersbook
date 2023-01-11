@@ -22,6 +22,6 @@ const chartData = [
   },
 ];
 
-const seedCharts = () => Joke.bulkCreate(chartData, { individualHooks: true });
+const seedCharts = () => Chart.bulkCreate(chartData, { individualHooks: true });
 
 module.exports = seedCharts;
