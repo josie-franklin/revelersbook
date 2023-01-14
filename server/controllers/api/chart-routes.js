@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { Op } = require("sequelize");
 const { Chart } = require("../../models");
 
 router.get("/", (req, res) => {
@@ -11,39 +12,20 @@ router.get("/", (req, res) => {
     });
 });
 
-// router.get("/:id", (req, res) => {
-//   Chart.findAll({
-//     where: {
-//       [Op.or]: [
-//         { bookNumber: req.params.id },
-//         { title: req.params.id },
-//         // { composer: req.params.id },
-//         // { arranger: req.params.id },
-//       ],
-//     },
-//   })
-//     .then((dbChartData) => {
-//       if (!dbChartData) {
-//         res.status(404).json({ message: "No chart found." });
-//         return;
-//       }
-//       res.json(dbChartData);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json(err);
-//     });
-// });
-
 router.get("/:id", (req, res) => {
-  Chart.findOne({
+  Chart.findAll({
     where: {
-      bookNumber: req.params.id,
-    },
+      [Op.or]: [
+        { bookNumber: req.params.id },
+        { title: req.params.id },
+        { composer: req.params.id },
+        { arranger: req.params.id },
+      ]
+    }
   })
     .then((dbChartData) => {
       if (!dbChartData) {
-        res.status(404).json({ message: "No chart found with this number" });
+        res.status(404).json({ message: "No chart found." });
         return;
       }
       res.json(dbChartData);
@@ -53,6 +35,25 @@ router.get("/:id", (req, res) => {
       res.status(500).json(err);
     });
 });
+
+// router.get("/:id", (req, res) => {
+//   Chart.findOne({
+//     where: {
+//       bookNumber: req.params.id,
+//     },
+//   })
+//     .then((dbChartData) => {
+//       if (!dbChartData) {
+//         res.status(404).json({ message: "No chart found with this number" });
+//         return;
+//       }
+//       res.json(dbChartData);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
 
 router.post("/", (req, res) => {
   Chart.create({
