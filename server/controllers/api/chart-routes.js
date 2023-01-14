@@ -17,11 +17,11 @@ router.get("/:id", (req, res) => {
     where: {
       [Op.or]: [
         { bookNumber: req.params.id },
-        { title: req.params.id },
-        { composer: req.params.id },
-        { arranger: req.params.id },
-      ]
-    }
+        { title: { [Op.like]: `%${req.params.id}%` } },
+        { composer: { [Op.like]: `%${req.params.id}%` } },
+        { arranger: { [Op.like]: `%${req.params.id}%` } },
+      ],
+    },
   })
     .then((dbChartData) => {
       if (!dbChartData) {

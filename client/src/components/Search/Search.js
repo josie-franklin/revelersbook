@@ -9,8 +9,6 @@ import Typography from "@mui/material/Typography";
 // import TextField from "@mui/material/TextField";
 
 const SearchPage = () => {
-  const [searchInput, setSearchInput] = useState("");
-
   useEffect(() => {}, []);
 
   return (
@@ -20,9 +18,9 @@ const SearchPage = () => {
           NC Revelers Orchestra Book
         </Typography>
 
-        <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
+        <SearchBar />
 
-        <Results searchInput={searchInput} />
+        <Results />
       </Stack>
     </Box>
   );

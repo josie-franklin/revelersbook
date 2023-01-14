@@ -12,8 +12,13 @@ class ChartContextProvider extends Component {
     this.setState({ chartObj: charts });
   };
 
-  getCharts = async () => {
+  getAllCharts = async () => {
     let charts = await chartApi.getAllCharts();
+    return charts;
+  };
+
+  getChartsBySearch = async (input) => {
+    let charts = await chartApi.getChartsBySearch(input);
     return charts;
   };
 
@@ -23,7 +28,8 @@ class ChartContextProvider extends Component {
         value={{
           chartObj: this.state.chartObj,
           setChartObj: this.setChartObj,
-          getCharts: this.getCharts,
+          getAllCharts: this.getAllCharts,
+          getChartsBySearch: this.getChartsBySearch,
         }}
       >
         {this.props.children}
