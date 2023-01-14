@@ -14,8 +14,37 @@ const Results = (props) => {
 
   const populateResults = async () => {
     let charts = await getCharts();
-    console.log(charts);
+    setChartObj(charts);
   };
+
+  const renderCharts = () => {
+    return (
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Book #</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Composer</TableCell>
+              <TableCell>Arranger</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {chartObj.map((chart) => (
+              <TableRow key={chart.id}>
+                <TableCell>{chart.bookNumber}</TableCell>
+                <TableCell>{chart.title}</TableCell>
+                <TableCell>{chart.composer}</TableCell>
+                <TableCell>{chart.arranger}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  };
+
+  let contents = !chartObj ? <p>Loading...</p> : renderCharts();
 
   useEffect(() => {
     if (!chartObj) {
@@ -23,36 +52,7 @@ const Results = (props) => {
     }
   }, [chartObj]);
 
-  return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>#</TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Composer</TableCell>
-            <TableCell>Arranger</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
-            {/* {rows.map((row) => (
-            <TableRow>
-              <TableCell>{row.number}</TableCell>
-              <TableCell>{row.title}</TableCell>
-              <TableCell>{row.composer}</TableCell>
-              <TableCell>{row.arranger}</TableCell>
-            </TableRow>
-          ))} */}
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+  return <div>{contents}</div>;
 };
 
 export default Results;
