@@ -34,6 +34,7 @@ const SearchBar = () => {
           id="search-input"
           disableUnderline={true}
           variant="standard"
+          placeholder="Search"
           fullWidth
         />
         <Divider orientation="vertical" />

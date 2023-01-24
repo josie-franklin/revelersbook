@@ -7,24 +7,24 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const Row = styled(Box)(() => ({
+const Row = styled(Box)(({ theme }) => ({
   width: "100%",
   padding: "10px",
+  [theme.breakpoints.only("xs")]: {
+    padding: "5px",
+  },
 }));
 
 const Text = styled(Typography)(({ theme }) => ({
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.only("sm")]: {
     fontSize: "0.8rem",
   },
-  [theme.breakpoints.down("xs")]: {
-    fontSize: "0.5rem",
+  [theme.breakpoints.only("xs")]: {
+    fontSize: "0.4rem",
   },
 }));
 
@@ -32,8 +32,21 @@ const BoldText = styled(Text)(() => ({
   fontWeight: "700",
 }));
 
-const Results = () => {
+const CustomEdit = styled(EditIcon)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "small",
+  },
+}));
+
+const CustomDelete = styled(DeleteIcon)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "small",
+  },
+}));
+
+const Results = (props) => {
   const { chartObj, setChartObj, getAllCharts } = useContext(ChartContext);
+  const { pageShowing } = props;
 
   const populateResults = async () => {
     let charts = await getAllCharts();
@@ -45,10 +58,10 @@ const Results = () => {
       <Stack>
         <Row sx={{ borderBottom: "1px solid grey" }}>
           <Grid container spacing={2}>
-            <Grid item xs={1.5}>
-              <BoldText>Book#</BoldText>
+            <Grid item xs={pageShowing === "edit" ? 1 : 1.5}>
+              <BoldText>#</BoldText>
             </Grid>
-            <Grid item xs={4.5}>
+            <Grid item xs={pageShowing === "edit" ? 3 : 4.5}>
               <BoldText>Title</BoldText>
             </Grid>
             <Grid item xs={3}>
@@ -57,6 +70,11 @@ const Results = () => {
             <Grid item xs={3}>
               <BoldText>Arranger</BoldText>
             </Grid>
+            {pageShowing === "edit" && (
+              <Grid item xs={2}>
+                <BoldText></BoldText>
+              </Grid>
+            )}
           </Grid>
         </Row>
         {chartObj.map((chart, i) => (
@@ -65,10 +83,10 @@ const Results = () => {
             sx={{ backgroundColor: i % 2 === 0 ? "#d9d9d9" : "" }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={1.5}>
+              <Grid item xs={pageShowing === "edit" ? 1 : 1.5}>
                 <Text>{chart.bookNumber}</Text>
               </Grid>
-              <Grid item xs={4.5}>
+              <Grid item xs={pageShowing === "edit" ? 3 : 4.5}>
                 <Text>{chart.title}</Text>
               </Grid>
               <Grid item xs={3}>
@@ -77,6 +95,16 @@ const Results = () => {
               <Grid item xs={3}>
                 <Text>{chart.arranger || "---"}</Text>
               </Grid>
+              {pageShowing === "edit" && (
+                <Grid item xs={2}>
+                  <IconButton>
+                    <CustomEdit />
+                  </IconButton>
+                  <IconButton>
+                    <CustomDelete />
+                  </IconButton>
+                </Grid>
+              )}
             </Grid>
           </Row>
         ))}
